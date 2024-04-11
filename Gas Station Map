@@ -1,0 +1,73 @@
+import SwiftUI
+
+struct ContentView: View {
+    @State private var selectedOption = "Location"
+
+    var body: some View {
+        NavigationStack {
+            VStack {
+                Picker("", selection: $selectedOption) {
+                    Text("Location").tag("Location")
+                    Text("Inventory").tag("Inventory")
+                    Text("Prices").tag("Prices")
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+
+                NavigationLink(destination: getDestinationView(), tag: selectedOption, selection: $selectedOption) {
+                    Text("Go to \(selectedOption)")
+                        .foregroundColor(.blue)
+                }
+            }
+            .navigationBarTitle("Gas Station App")
+        }
+    }
+
+    private func getDestinationView() -> AnyView {
+        switch selectedOption {
+        case "Location":
+            return AnyView(LocationView())
+        case "Inventory":
+            return AnyView(InventoryView())
+        case "Prices":
+            return AnyView(PricesView())
+        default:
+            return AnyView(Text("Please select an option"))
+        }
+    }
+}
+
+struct LocationView: View {
+    var body: some View {
+        NavigationStack {
+            Text("Location View")
+                .font(.title)
+                .padding()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        NavigationLink(destination: ContentView()) {
+                            Text("Back")
+                        }
+                    }
+                }
+        }
+    }
+}
+
+struct InventoryView: View {
+    var body: some View {
+        Text("Inventory View")
+            .font(.title)
+            .padding()
+    }
+}
+
+struct PricesView: View {
+    var body: some View {
+        Text("Prices View")
+            .font(.title)
+            .padding()
+    }
+}
+
+struct ContentView_Previews: PreviewP
